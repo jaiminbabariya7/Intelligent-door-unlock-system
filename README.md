@@ -1,10 +1,56 @@
-# Intelligent-door-unlock-system
-Voice and Face Recognition system
+# Intelligent Door Unlock System
 
-      Our project is an intelligent door unlocking system. The system makes use of face recognition and voice authentication for verifying the visitor and unlocks the door on
-authentication. The purpose of this system is to provide ease of access to owners and security. It can also be used for surveillance purpose because of the CCTV cameras used
-in the system. This system can be used and deployed by security agencies. The system can be used at home, offices, societies etc. Once the user is registered into the system 
-the system will detect their face using a video footage from CCTV camera, if the face matches with the database record then the system will proceed for voice authentication.
-For voice authentication the visitor has to give a sample voice input that would be compared with the records in database. Once the voice is authenticated the door will be
-unlocked automatically without any hassle of manual unlocking. Our system solves issues caused by manual unlocking of doors using conventional lock and key. The issues of key
-management, duplicate key break in, thefts and break ins etc. are solved using our system. Hence, providing a safe and secure way of entering our house or buildings.
+![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python)
+![OpenCV](https://img.shields.io/badge/OpenCV-4.x-brightgreen?logo=opencv)
+![DeepFace](https://img.shields.io/badge/DeepFace-Face%20Recognition-blue)
+![IoT](https://img.shields.io/badge/Raspberry%20Pi-IoT-red?logo=raspberrypi)
+![License](https://img.shields.io/badge/License-MIT-green)
+
+> Biometric door unlock system combining face recognition (DeepFace + OpenCV Haar cascades) and voice authentication (MFCC + DTW). Designed for Raspberry Pi with real-time detection and access logging.
+
+## Architecture
+```
+Camera (Raspberry Pi / USB webcam)
+        ↓
+Face Detection — Haar Cascade Classifier
+        ↓
+Face Recognition — DeepFace (VGG-Face model)
+  └── Compare against enrolled faces DB
+        ↓  PARALLEL
+Microphone Input
+        ↓
+Voice Verification — MFCC + Dynamic Time Warping
+        ↓
+Access Decision Engine
+  ├── BOTH factors match → UNLOCK + log event
+  └── Either fails       → DENY  + alert
+        ↓
+Access Log (CSV / SQLite)
+```
+
+## Features
+
+| Feature | Implementation |
+|---|---|
+| Face detection | OpenCV Haar cascade (`haarcascade_frontalface_default.xml`) |
+| Face recognition | DeepFace with VGG-Face embeddings |
+| Voice verification | MFCC feature extraction + DTW distance matching |
+| Enrolment | `voice_face_record.py` — capture and store user profile |
+| Access logging | Timestamped logs with result and confidence score |
+| Raspberry Pi ready | GPIO relay control for door lock mechanism |
+
+## Setup
+```bash
+git clone https://github.com/jaiminbabariya7/Intelligent-door-unlock-system
+cd Intelligent-door-unlock-system
+pip install -r requirement.txt
+
+# Enrol a new user
+python voice_face_record.py --name "John"
+
+# Start the access system
+python voice_face_recognize.py
+```
+
+## Skills Demonstrated
+`Python` · `OpenCV` · `DeepFace` · `Face Recognition` · `MFCC` · `IoT` · `Raspberry Pi` · `Biometric Authentication`
